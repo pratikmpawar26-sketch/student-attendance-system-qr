@@ -1,0 +1,144 @@
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register — QR Attendance</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+</head>
+<body>
+
+<div class="app">
+  <div class="cover">
+    <div>
+      <h1>Register</h1>
+      <div class="sub">Student Attendance · QR Ledger</div>
+    </div>
+    <div class="date-stamp" id="todayStamp">Mon, Jul 20, 2026</div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="dashboard">Overview</div>
+    <div class="tab" data-tab="students">Students</div>
+    <div class="tab" data-tab="scan">Scan</div>
+    <div class="tab" data-tab="log">Attendance Log</div>
+  </div>
+
+  <div class="panel">
+
+    <!-- DASHBOARD -->
+    <div class="tab-panel" id="panel-dashboard">
+      <h2>Today at a glance</h2>
+      <p class="hint">All data lives only in this browser tab's memory — it resets if you reload the page.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="num" id="statTotal">0</div><div class="lbl">Students Enrolled</div></div>
+        <div class="stat"><div class="num" id="statPresent">0</div><div class="lbl">Present Today</div></div>
+        <div class="stat"><div class="num" id="statAbsent">0</div><div class="lbl">Absent Today</div></div>
+        <div class="stat"><div class="num" id="statRate">0%</div><div class="lbl">Attendance Rate</div></div>
+      </div>
+      <div class="panel-section">
+        <h2>Quick add</h2>
+        <p class="hint">Enroll a student here — they'll get an instant QR badge under the Students tab.</p>
+        <div class="form-grid">
+          <div>
+            <label for="qa-name">Full name</label>
+            <input id="qa-name" type="text" placeholder="e.g. Aarav Sharma">
+          </div>
+          <div>
+            <label for="qa-roll">Roll number</label>
+            <input id="qa-roll" type="text" placeholder="e.g. 21">
+          </div>
+          <div>
+            <label for="qa-class">Class / Section</label>
+            <input id="qa-class" type="text" placeholder="e.g. 10-B">
+          </div>
+        </div>
+        <button id="qa-add">+ Add Student</button>
+      </div>
+    </div>
+
+    <!-- STUDENTS -->
+    <div class="tab-panel" id="panel-students" style="display:none;">
+      <div class="toolbar">
+        <div>
+          <h2 style="margin-bottom:0;">Student Register</h2>
+          <p class="hint" style="margin-bottom:0;">Every card's QR code is that student's unique attendance ID.</p>
+        </div>
+        <div class="no-print" style="display:flex; gap:8px;">
+          <button class="secondary" id="printBtn">Print Badges</button>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div>
+          <label for="s-name">Full name</label>
+          <input id="s-name" type="text" placeholder="e.g. Diya Patel">
+        </div>
+        <div>
+          <label for="s-roll">Roll number</label>
+          <input id="s-roll" type="text" placeholder="e.g. 22">
+        </div>
+        <div>
+          <label for="s-class">Class / Section</label>
+          <input id="s-class" type="text" placeholder="e.g. 10-B">
+        </div>
+      </div>
+      <button id="s-add" style="margin-bottom:22px;">+ Add Student</button>
+
+      <div id="studentGrid" class="student-grid"><div class="student-card">
+      <button class="remove-btn no-print" title="Remove student">✕</button>
+      <div class="qr-box" id="qr-STU-0001"></div>
+      <div class="s-name">Aarav Sharma</div>
+      <div class="s-meta">Roll 01 · 10-B</div>
+      <div class="s-meta">STU-0001</div>
+    </div></div>
+    </div>
+
+    <!-- SCAN -->
+    <div class="tab-panel" id="panel-scan" style="display:none;">
+      <h2>Scan to mark attendance</h2>
+      <p class="hint">Point a student's QR badge at the camera. Each student can only be marked present once per day.</p>
+      <div class="scan-layout">
+        <div>
+          <div id="reader"></div>
+          <div class="no-print" style="margin-top:12px; display:flex; gap:8px;">
+            <button id="scanStart">Start Camera</button>
+            <button class="secondary" id="scanStop">Stop Camera</button>
+          </div>
+        </div>
+        <div>
+          <div class="scan-feed" id="scanFeed"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOG -->
+    <div class="tab-panel" id="panel-log" style="display:none;">
+      <div class="toolbar">
+        <div>
+          <h2 style="margin-bottom:0;">Attendance Log</h2>
+          <p class="hint" style="margin-bottom:0;">Full history of check-ins.</p>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <input type="date" id="logFilter" style="width:auto;">
+          <button class="secondary" id="exportBtn">Export CSV</button>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr><th>Date</th><th>Time</th><th>Name</th><th>Roll No.</th><th>Class</th></tr>
+        </thead>
+        <tbody id="logBody"></tbody>
+      </table>
+      <div id="logEmpty" class="empty" style="display:none; margin-top:12px;">No attendance recorded yet.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast">Aarav Sharma added to the register</div>
+
+<script src="script.js"></script>
+
+
+</body></html>
